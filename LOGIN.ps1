@@ -8,10 +8,12 @@
 #   $clientSecretPlainText = Read-Host -Prompt 'Client Secret'
 #   @{'clientSecretPlainText' = $clientSecretPlainText} | ConvertTo-Json | Out-File "./SECRETS"
 
+
+
 # --- Service Principals -------------------------------------------------------------
 $tenantId = '4fc7dd0c-5c8d-405e-a415-189fe82fb2bb'
 $clientId = '776cca4e-a126-4efb-ad31-ed873a131b3c'
-$clientSecretPlainText = Get-Content "./SECRETS" | ConvertFrom-Json | % { $_.clientSecretPlainText }
+$clientSecretPlainText = Get-Content "./PASSWORDS" | ConvertFrom-Json | % { $_.clientSecretPlainText }
 $clientSecretSecure = Get-Content "./PASSWORDS" | ConvertFrom-Json | % { $_.clientSecret } | ConvertTo-SecureString
 $credential = New-Object System.Management.Automation.PSCredential($clientId, $clientSecretSecure)
 
