@@ -1,20 +1,20 @@
 $location = 'westeurope'
-$rgName = 'rg-dev'
-$vnetName = 'vnet-dev'
+$rgName = 'rg-prod'
+$vnetName = 'vnet-prod'
 $vnet = Get-AzVirtualNetwork -Name $vnetName -ResourceGroupName $rgName
 $subnet = $vnet.Subnets | Where-Object Name -EQ 'Subnet0'
 
 $params = @{
     location = $location
-    vmName = 'vm-dev-vm3'
-    vmComputerName = 'VM3'
-    vmAdminUserName = 'LocalAdmin'
-    vmAdminPassword = Get-Content "./PASSWORDS" | ConvertFrom-Json | % { $_.localAdminPassword } | ConvertTo-SecureString
+    vmName = 'vm-prod-dc1'
+    vmComputerName = 'DC1'
+    vmAdminUserName = 'DomainAdmin'
+    vmAdminPassword = Get-Content "./PASSWORDS" | ConvertFrom-Json | % { $_.domainAdminPassword } | ConvertTo-SecureString
     subnetId = $subnet.Id
 }
 
 New-AzResourceGroupDeployment `
-    -Name 'Test-vm-template' `
+    -Name 'Deploy-prod-dc1' `
     -ResourceGroupName $rgName `
     -TemplateFile '.\templates\virtualMachineWindows.bicep' `
     @params
