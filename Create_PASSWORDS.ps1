@@ -12,6 +12,13 @@
 #
 # 'DomainAdmin password'
 #       ist das Password für den Domänen Administrator (Active Directory)
+#
+# Put "PASSWORDS" into .gitignore
+#
+# Das Client Secret wird zweimal gespeichert: als Secure String und als Klartext.
+#       PowerShell (Connect-AzAccount) kann Secure String
+#       Azure CLI (az login) kann nur Klartext
+#
 
 $clientSecret = Read-Host -Prompt 'Client Secret powershell' -AsSecureString | ConvertFrom-SecureString
 $clientSecretPlainText = Read-Host -Prompt 'Client Secret powershell'
@@ -23,3 +30,5 @@ $domainAdminPassword = Read-Host -Prompt 'DomainAdmin password' -AsSecureString 
     'localAdminPassword' = $localAdminPassword
     'domainAdminPassword' = $domainAdminPassword
 } | ConvertTo-Json | Out-File "./PASSWORDS"
+
+Write-Output 'PASSWORDS' >> ./.gitignore
